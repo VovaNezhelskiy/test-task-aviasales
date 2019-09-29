@@ -1,6 +1,7 @@
 import { LOAD_STATE } from '../../constants/loadState';
 import { GET_SEARCH_ID, SEARCH_TICKETS, SELECT_SORTING, SELECT_STOP } from '../actions/tickets';
 import { SORTING_ENUM, STOPS, STOPS_ENUM } from '../../constants/dictionaries';
+import { sortFromKey } from '../../utils/sortFromKey';
 
 const reducedStops = STOPS.reduce((acc, stop) => ({ ...acc, [stop.id]: false }), {});
 
@@ -45,14 +46,23 @@ export function tickets(state = initialState, action) {
         }
       };
     }
-    case SELECT_SORTING.type:
+    case SELECT_SORTING.type: {
+      const keyExtractor = payload === SORTING_ENUM.CHEAPEST
+        ? (ticket) => ticket.price
+        : (ticket) => ticket.segments.reduce((acc, segment) => acc + segment.duration, 0);
+
       return {
         ...state,
+        list: {
+          ...state.list,
+          value: state.list.value.sort(sortFromKey(keyExtractor)),
+        },
         filters: {
           ...state.filters,
           sorting: payload,
         }
-      };
+      }
+    }
     case GET_SEARCH_ID.started:
       return {
         ...state,
