@@ -1,3 +1,7 @@
 .tickets__container {
   display: flex;
 }
+
+.tickects-sorting__container {
+  margin-left: 20px;
+}

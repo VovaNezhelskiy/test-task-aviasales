@@ -11,7 +11,13 @@ h2,
 h3,
 h4,
 h5,
-input {
+input,
+button {
   font-family: 'Open Sans';
   margin: 0;
+}
+
+button {
+  background: transparent;
+  border: none;
 }
