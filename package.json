@@ -77,7 +77,8 @@
     "overrides": [
       {
         "files": [
-          "webpack.config*"
+          "webpack.config*",
+          "postcss.config.js"
         ],
         "env": {
           "node": true
