@@ -81,8 +81,14 @@
       }
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn eslint:fix"
+    }
+  },
   "scripts": {
     "start": "webpack-dev-server --config ./webpack.config.dev.js",
-    "build": "webpack --config ./webpack.config.prod.js"
+    "build": "webpack --config ./webpack.config.prod.js",
+    "eslint:fix": "eslint --fix --format table './src' --ext '.js,.jsx'"
   }
 }
