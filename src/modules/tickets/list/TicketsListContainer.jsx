@@ -26,7 +26,7 @@ export function TicketsListContainer() {
 
   React.useEffect(() => {
     if (loadingState === LOAD_STATE.FAILED) {
-      dispatch(searchTickets())()
+      dispatch(searchTickets())
     }
   }, [loadingState]);
 
