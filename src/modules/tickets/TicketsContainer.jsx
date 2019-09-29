@@ -5,7 +5,7 @@ import { TicketsListContainer } from './list/TicketsListContainer';
 
 export function TicketsContainer() {
   return (
-    <div className="centered-container">
+    <div className="tickets__container centered-container">
       <StopsContainer />
 
       <div>
