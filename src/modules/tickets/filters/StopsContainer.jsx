@@ -2,11 +2,11 @@ import React from 'react';
 import './styles.css'
 import { Checkbox } from '../../../ui/checkbox';
 import { useDispatch, useSelector } from 'react-redux';
-import { SELECT_STOP } from '../../../store/actions/filters';
 import { STOPS } from '../../../constants/dictionaries';
+import { SELECT_STOP } from '../../../store/actions/tickets';
 
-const selectStops = ({ filters }) => {
-  const stopsObject = filters.stops;
+const selectStops = ({ tickets }) => {
+  const stopsObject = tickets.filters.stops;
 
   return STOPS.map(stop => ({
     ...stop,

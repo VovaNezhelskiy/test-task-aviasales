@@ -35,3 +35,6 @@ export const searchTickets = () => async (dispatch, getState) => {
     dispatch(asyncSearchTickets.failed(error));
   }
 };
+
+export const SELECT_STOP = actionCreator('SELECT_STOP');
+export const SELECT_SORTING = actionCreator('SELECT_SORTING');

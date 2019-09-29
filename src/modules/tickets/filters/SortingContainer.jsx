@@ -3,10 +3,10 @@ import './styles.css';
 import { Radio } from '../../../ui/radio';
 import { SORTING } from '../../../constants/dictionaries';
 import { useDispatch, useSelector } from 'react-redux';
-import { SELECT_SORTING } from '../../../store/actions/filters';
+import { SELECT_SORTING } from '../../../store/actions/tickets';
 
-const selectSort = ({ filters }) => {
-  const selectedId = filters.sorting;
+const selectSort = ({ tickets }) => {
+  const selectedId = tickets.filters.sorting;
 
   return SORTING.map(sort => ({ ...sort, checked: selectedId === sort.id }));
 };
@@ -18,7 +18,7 @@ export function SortingContainer() {
   const selectSortOption = (id) => (event) => {
     event.preventDefault();
     dispatch(SELECT_SORTING(id));
-  }
+  };
 
   const renderSortingTab = (sortOption, index) => (
     <Radio
