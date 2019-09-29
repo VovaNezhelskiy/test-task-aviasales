@@ -1,0 +1,6 @@
+export const LOAD_STATE = {
+  NOT_ASKED: 'NOT_ASKED',
+  LOADING: 'LOADING',
+  DONE: 'DONE',
+  FAILED: 'FAILED',
+};
