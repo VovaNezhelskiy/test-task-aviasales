@@ -19,7 +19,7 @@ const baseConfig = {
     port: 9000,
     proxy: {
       '/api': {
-        target: 'http://skipro.dextechnology.com:40000',
+        target: 'https://front-test.beta.aviasales.ru',
         secure: false,
         changeOrigin: true,
       },
