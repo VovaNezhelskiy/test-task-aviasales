@@ -1,0 +1,24 @@
+.radio__label {
+  padding: 15px 57px;
+  flex-grow: 1;
+
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 20px;
+
+  background: var(--white);
+  border: 1px solid var(--secondaryColor);
+
+  &.checked {
+    color: var(--white);
+    background: var(--blue);
+    border: none;
+  }
+}
+
+.radio__input {
+  opacity: 0;
+  appearance: none;
+}

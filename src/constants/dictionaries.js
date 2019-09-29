@@ -33,3 +33,19 @@ export const STOPS_ENUM = {
   WITH_TWO: 1,
   WITH_THREE: 1,
 };
+
+export const SORTING = [
+  {
+    id: 1,
+    name: 'Самый дешевый'
+  },
+  {
+    id: 2,
+    name: 'Самый быстрый'
+  },
+];
+
+export const SORTING_ENUM = {
+  CHEAPEST: 1,
+  FASTEST: 2,
+};

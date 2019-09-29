@@ -44,18 +44,4 @@
 
 .sorting__button {
   flex-grow: 1;
-  padding: 15px 57px;
-  font-size: 12px;
-  line-height: 20px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  font-weight: 600;
-  background: var(--white);
-  border: 1px solid var(--secondaryColor);
-
-  &.active {
-    background: var(--blue);
-    color: var(--white);
-    border: none;
-  }
 }
