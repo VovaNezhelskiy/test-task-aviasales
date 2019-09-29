@@ -40,6 +40,7 @@
 }
 
 .sorting__button {
+  flex-grow: 1;
   padding: 15px 57px;
   font-size: 12px;
   line-height: 20px;
