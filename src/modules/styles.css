@@ -1,0 +1,15 @@
+.app__container {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--containerColor);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.centered-container {
+  margin: 0 auto;
+}
