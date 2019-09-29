@@ -2,18 +2,22 @@ import React from 'react';
 import './styles.css';
 import { Radio } from '../../../ui/radio';
 import { SORTING } from '../../../constants/dictionaries';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { SELECT_SORTING } from '../../../store/actions/filters';
 
 const selectSort = ({ filters }) => {
-  return SORTING;
-}
+  const selectedId = filters.sorting;
+
+  return SORTING.map(sort => ({ ...sort, checked: selectedId === sort.id }));
+};
 
 export function SortingContainer() {
+  const dispatch = useDispatch();
   const sortingTabs = useSelector(selectSort);
 
   const selectSortOption = (id) => (event) => {
     event.preventDefault();
-    console.log(id);
+    dispatch(SELECT_SORTING(id));
   }
 
   const renderSortingTab = (sortOption, index) => (

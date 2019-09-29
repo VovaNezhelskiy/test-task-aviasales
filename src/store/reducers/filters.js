@@ -1,10 +1,11 @@
-import { SELECT_STOP } from '../actions/filters';
-import { STOPS, STOPS_ENUM } from '../../constants/dictionaries';
+import { SELECT_SORTING, SELECT_STOP } from '../actions/filters';
+import { SORTING_ENUM, STOPS, STOPS_ENUM } from '../../constants/dictionaries';
 
 const reducedStops = STOPS.reduce((acc, stop) => ({ ...acc, [stop.id]: false }), {});
 
 const initialState = {
   stops: reducedStops,
+  sorting: SORTING_ENUM.CHEAPEST,
 };
 
 export function filters(state = initialState, action) {
@@ -26,6 +27,11 @@ export function filters(state = initialState, action) {
         stops: updatedStops,
       };
     }
+    case SELECT_SORTING.type:
+      return {
+        ...state,
+        sorting: payload,
+      };
     default: return state;
   }
 }
