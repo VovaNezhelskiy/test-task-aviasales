@@ -5,10 +5,13 @@
 .stops-list {
   background: var(--white);
   box-shadow: var(--defaultBoxShadow);
+  padding: 20px 0;
+  border-radius: 5px;
 }
 
 .stops__header {
   padding: 20px;
+  padding-top: 0;
   font-size: 14px;
   line-height: 12px;
   letter-spacing: 0.7px;

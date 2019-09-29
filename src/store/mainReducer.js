@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import { counter } from './reducers/counter';
+import { filters } from './reducers/filters';
 
 export const reducer = combineReducers({
-  counter,
+  filters,
 });
