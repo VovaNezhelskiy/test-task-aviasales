@@ -1,7 +1,8 @@
 import React from 'react';
+import { TicketsList } from './TicketsList';
 
 export function TicketsListContainer() {
   return (
-    <div>List of Tickets</div>
+    <TicketsList />
   );
 }

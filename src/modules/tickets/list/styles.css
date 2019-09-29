@@ -1,0 +1,58 @@
+.ticket__container {
+  background: var(--white);
+  box-shadow: var(--defaultBoxShadow);
+  border-radius: 5px;
+}
+
+.tickets-list__card-container {
+  margin-bottom: 20px;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.ticket__container {
+  padding: 26px 20px 20px;
+
+  .ticket__header {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+
+    .ticket__price {
+      font-size: 24px;
+      line-height: 24px;
+      font-weight: 600;
+      color: var(--blue);
+      padding: 6px 0;
+    }
+
+    .ticket__logo {
+      height: 36px;
+    }
+  }
+
+  .ticket__fly-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 20px;
+
+    .info-block {
+      font-weight: 600;
+
+      &__title {
+        font-size: 12px;
+        line-height: 18px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        color: var(--grey);
+      }
+
+      &__value {
+        font-size: 14px;
+        line-height: 21px;
+        color: var(--dark);
+      }
+    }
+  }
+}
