@@ -20,6 +20,7 @@ const baseConfig = {
     proxy: {
       '/api': {
         target: 'https://front-test.beta.aviasales.ru',
+        pathRewrite: { '^/api': '' },
         secure: false,
         changeOrigin: true,
       },

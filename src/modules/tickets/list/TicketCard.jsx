@@ -1,14 +1,19 @@
 import React from 'react';
-import './styles.css';
+import PropTypes from 'prop-types';
 import { TicketInfoBlock } from './TicketInfoBlock';
+import { TICKET_PROP_TYPE } from '../../../types/tickets';
+import './styles.css';
 
-export function TicketCard() {
-  const logoPath = `//pics.avs.io/99/36/${'S7@2x'}.png`
+export function TicketCard({ ticket }) {
+  const { price, carrier } = ticket;
+
+  const logoPath = `//pics.avs.io/99/36/${carrier}.png`;
+
   return (
     <article className="ticket__container">
       <header className="ticket__header">
         <div className="ticket__price__container">
-          <p className="ticket__price">13 400 Р</p>
+          <p className="ticket__price">{price}Р</p>
         </div>
         <div className="ticket__logo">
           <img src={logoPath} alt="Logo of airline" className="ticket__logo"/>
@@ -26,4 +31,12 @@ export function TicketCard() {
       </div>
     </article>
   );
+}
+
+TicketCard.propTypes = {
+  ticket: PropTypes.shape(TICKET_PROP_TYPE),
+};
+
+TicketCard.defaultProps = {
+  ticket: null,
 }

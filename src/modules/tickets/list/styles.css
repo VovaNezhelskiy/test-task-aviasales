@@ -4,6 +4,10 @@
   border-radius: 5px;
 }
 
+.tickets-list__container {
+  padding-bottom: 120px;
+}
+
 .tickets-list__card-container {
   margin-bottom: 20px;
 
