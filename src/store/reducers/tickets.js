@@ -24,50 +24,6 @@ const initialState = {
     sorting: getSearchParam('sorting') || SORTING_ENUM.CHEAPEST,
   },
 };
-
-const sortTickets = (tickets, sortingId) => {
-  const keyExtractor = sortingId === SORTING_ENUM.CHEAPEST
-    ? (ticket) => ticket.price
-    : (ticket) => ticket.segments.reduce((acc, segment) => acc + segment.duration, 0);
-
-  return tickets.sort(sortFromKey(keyExtractor));
-};
-
-const updateStops = (oldStops, stopId) => {
-  if (stopId === STOPS_ENUM.ALL) {
-    return Object
-      .keys(oldStops)
-      .reduce((acc, id) => ({ ...acc, [id]: !oldStops[stopId] }), {})
-  }
-
-  return { ...oldStops, [stopId]: !oldStops?.[stopId] };
-};
-
-const filterTickets = (tickets, filters) => {
-  const allFiltersSelected = Object.values(filters).filter(Boolean).length === STOPS.length;
-  const noOneSelected = Object.values(filters).filter(Boolean).length === 0;
-  const includeAll = filters[STOPS_ENUM.ALL];
-  const includeWithout = filters[STOPS_ENUM.WITHOUT];
-  const includeWithOne = filters[STOPS_ENUM.WITH_ONE];
-  const includeWithTwo = filters[STOPS_ENUM.WITH_TWO];
-  const includeWithThree = filters[STOPS_ENUM.WITH_THREE];
-
-  return tickets.filter(ticket => {
-    const stopsCount = ticket.segments.reduce((acc, item) => acc + item.stops.length, 0);
-    if (allFiltersSelected || noOneSelected) {
-      return true;
-    }
-
-    return (
-      includeAll
-      || (includeWithout && (stopsCount === 0))
-      || (includeWithOne && (stopsCount === 1))
-      || (includeWithTwo && (stopsCount === 2))
-      || (includeWithThree && (stopsCount === 3))
-    )
-  })
-};
-
 export function tickets(state = initialState, action) {
   const { type, payload } = action;
 
@@ -175,4 +131,48 @@ export function tickets(state = initialState, action) {
       };
     default: return state;
   }
+}
+
+
+function sortTickets(tickets, sortingId) {
+  const keyExtractor = sortingId === SORTING_ENUM.CHEAPEST
+    ? (ticket) => ticket.price
+    : (ticket) => ticket.segments.reduce((acc, segment) => acc + segment.duration, 0);
+
+  return tickets.sort(sortFromKey(keyExtractor));
+}
+
+function updateStops(oldStops, stopId) {
+  if (stopId === STOPS_ENUM.ALL) {
+    return Object
+      .keys(oldStops)
+      .reduce((acc, id) => ({ ...acc, [id]: !oldStops[stopId] }), {})
+  }
+
+  return { ...oldStops, [stopId]: !oldStops?.[stopId] };
+}
+
+function filterTickets(tickets, filters) {
+  const allFiltersSelected = Object.values(filters).filter(Boolean).length === STOPS.length;
+  const noOneSelected = Object.values(filters).filter(Boolean).length === 0;
+  const includeAll = filters[STOPS_ENUM.ALL];
+  const includeWithout = filters[STOPS_ENUM.WITHOUT];
+  const includeWithOne = filters[STOPS_ENUM.WITH_ONE];
+  const includeWithTwo = filters[STOPS_ENUM.WITH_TWO];
+  const includeWithThree = filters[STOPS_ENUM.WITH_THREE];
+
+  return tickets.filter(ticket => {
+    const stopsCount = ticket.segments.reduce((acc, item) => acc + item.stops.length, 0);
+    if (allFiltersSelected || noOneSelected) {
+      return true;
+    }
+
+    return (
+      includeAll
+      || (includeWithout && (stopsCount === 0))
+      || (includeWithOne && (stopsCount === 1))
+      || (includeWithTwo && (stopsCount === 2))
+      || (includeWithThree && (stopsCount === 3))
+    )
+  })
 }
