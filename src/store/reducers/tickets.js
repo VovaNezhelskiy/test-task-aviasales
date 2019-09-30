@@ -16,6 +16,7 @@ const initialState = {
     loadingState: LOAD_STATE.NOT_ASKED,
     errorMessage: null,
     value: [],
+    noFilters: [],
     hasMore: true,
   },
   filters: {
@@ -30,6 +31,41 @@ const sortTickets = (tickets, sortingId) => {
     : (ticket) => ticket.segments.reduce((acc, segment) => acc + segment.duration, 0);
 
   return tickets.sort(sortFromKey(keyExtractor));
+};
+
+const updateStops = (oldStops, stopId) => {
+  if (stopId === STOPS_ENUM.ALL) {
+    return Object
+      .keys(oldStops)
+      .reduce((acc, id) => ({ ...acc, [id]: !oldStops[stopId] }), {})
+  }
+
+  return { ...oldStops, [stopId]: !oldStops?.[stopId] };
+};
+
+const filterTickets = (tickets, filters) => {
+  const allFiltersSelected = Object.values(filters).filter(Boolean).length === STOPS.length;
+  const noOneSelected = Object.values(filters).filter(Boolean).length === 0;
+  const includeAll = filters[STOPS_ENUM.ALL];
+  const includeWithout = filters[STOPS_ENUM.WITHOUT];
+  const includeWithOne = filters[STOPS_ENUM.WITH_ONE];
+  const includeWithTwo = filters[STOPS_ENUM.WITH_TWO];
+  const includeWithThree = filters[STOPS_ENUM.WITH_THREE];
+
+  return tickets.filter(ticket => {
+    const stopsCount = ticket.segments.reduce((acc, item) => acc + item.stops.length, 0);
+    if (allFiltersSelected || noOneSelected) {
+      return true;
+    }
+
+    return (
+      includeAll
+      || (includeWithout && (stopsCount === 0))
+      || (includeWithOne && (stopsCount === 1))
+      || (includeWithTwo && (stopsCount === 2))
+      || (includeWithThree && (stopsCount === 3))
+    )
+  })
 };
 
 export function tickets(state = initialState, action) {
@@ -56,8 +92,18 @@ export function tickets(state = initialState, action) {
       };
     }
     case CHANGE_FILTER.type: {
-      const { sorting } = payload;
-      const sortedTickets = sortTickets(state.list.value, sorting.id);
+      const { sorting, stop } = payload;
+      const tickets = state.list.noFilters;
+      const hasUpdatedSorting = Boolean(sorting);
+      const hasUpdatedStops = Boolean(stop);
+
+      const updatedSorting = hasUpdatedSorting ? sorting.id : state.filters.sorting;
+      const updatedStops = hasUpdatedStops
+        ? updateStops(state.filters.stops, stop.id)
+        : state.filters.stops;
+
+      const filteredTickets = hasUpdatedStops ? filterTickets(tickets, updatedStops) : tickets;
+      const sortedTickets = hasUpdatedSorting ? sortTickets(filteredTickets, sorting.id) : filteredTickets;
 
       return {
         ...state,
@@ -66,8 +112,8 @@ export function tickets(state = initialState, action) {
           value: sortedTickets,
         },
         filters: {
-          ...state.filters,
-          sorting: sorting.id,
+          stops: updatedStops,
+          sorting: updatedSorting,
         }
       }
     }
@@ -113,6 +159,7 @@ export function tickets(state = initialState, action) {
           ...state.list,
           loadingState: LOAD_STATE.DONE,
           value: sortedTickets,
+          noFilters: sortedTickets,
           hasMore: !payload.stop,
         }
       }

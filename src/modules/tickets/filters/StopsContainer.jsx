@@ -3,7 +3,7 @@ import './styles.css'
 import { Checkbox } from '../../../ui/checkbox';
 import { useDispatch, useSelector } from 'react-redux';
 import { STOPS } from '../../../constants/dictionaries';
-import { SELECT_STOP } from '../../../store/actions/tickets';
+import { CHANGE_FILTER, SELECT_STOP } from '../../../store/actions/tickets';
 
 const selectStops = ({ tickets }) => {
   const stopsObject = tickets.filters.stops;
@@ -20,7 +20,7 @@ export function StopsContainer() {
 
   const selectCheckbox = (id) => (event) => {
     event.preventDefault();
-    dispatch(SELECT_STOP(id))
+    dispatch(CHANGE_FILTER({ stop: { id } }))
   };
 
   const renderCheckbox = (stop, index) => (

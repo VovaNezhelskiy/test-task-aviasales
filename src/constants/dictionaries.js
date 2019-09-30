@@ -29,9 +29,9 @@ export const STOPS = [
 export const STOPS_ENUM = {
   ALL: 0,
   WITHOUT: 1,
-  WITH_ONE: 1,
-  WITH_TWO: 1,
-  WITH_THREE: 1,
+  WITH_ONE: 2,
+  WITH_TWO: 3,
+  WITH_THREE: 4,
 };
 
 export const SORTING = [
