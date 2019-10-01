@@ -8,7 +8,7 @@ import useRouter from 'use-react-router';
 import { updateSearchParams } from '../../../utils/updateSearchParam';
 
 const selectSort = ({ tickets }) => {
-  const sortingId = tickets.filters.sorting;
+  const sortingId = parseInt(tickets.filters.sorting, 10);
   const sortingTabs = SORTING.map(sort => ({ ...sort, checked: sortingId === sort.id }));
 
   return { sortingTabs, sortingId };

@@ -4,13 +4,6 @@ import { SORTING_ENUM, STOPS, STOPS_ENUM } from '../../constants/dictionaries';
 import { sortFromKey } from '../../utils/sortFromKey';
 import { getSearchParam } from '../../utils/getSearchParam';
 
-const selectedStops = STOPS.reduce((acc, stop) => {
-  const selectedIds = getSearchParam('stops')?.split(',') || [];
-  const isSelected = selectedIds.some(id => parseInt(id, 10) === stop.id);
-
-  return ({ ...acc, [stop.id]: isSelected });
-}, {});
-
 const initialState = {
   searchId: {
     loadingState: LOAD_STATE.NOT_ASKED,
@@ -25,10 +18,11 @@ const initialState = {
     hasMore: true,
   },
   filters: {
-    stops: selectedStops,
-    sorting: getSearchParam('sorting') || SORTING_ENUM.CHEAPEST,
+    stops: getStopsFromURL(),
+    sorting: getSortingFromURL(),
   },
 };
+
 export function tickets(state = initialState, action) {
   const { type, payload } = action;
 
@@ -63,8 +57,8 @@ export function tickets(state = initialState, action) {
         ? updateStops(state.filters.stops, stop.id)
         : state.filters.stops;
 
-      const filteredTickets = hasUpdatedStops ? filterTickets(tickets, updatedStops) : tickets;
-      const sortedTickets = hasUpdatedSorting ? sortTickets(filteredTickets, sorting.id) : filteredTickets;
+      const filteredTickets = filterTickets(tickets, updatedStops);
+      const sortedTickets = sortTickets(filteredTickets, updatedSorting);
 
       return {
         ...state,
@@ -121,7 +115,7 @@ export function tickets(state = initialState, action) {
           ...state.list,
           loadingState: LOAD_STATE.DONE,
           value: sortedTickets,
-          noFilters: sortedTickets,
+          noFilters: payload.tickets,
           hasMore: !payload.stop,
         }
       }
@@ -139,6 +133,25 @@ export function tickets(state = initialState, action) {
   }
 }
 
+function getStopsFromURL() {
+  return STOPS.reduce((acc, stop) => {
+    const selectedIdsFromURL = getSearchParam('stops');
+    const arrayOfSelectedIds = selectedIdsFromURL
+      ? selectedIdsFromURL.split(',').map(id => parseInt(id, 10))
+      : [];
+    const isSelected = arrayOfSelectedIds.some(id => id === stop.id);
+
+    return ({ ...acc, [stop.id]: isSelected });
+  }, {});
+}
+
+function getSortingFromURL() {
+  const sortingFromURL = getSearchParam('sorting');
+
+  return sortingFromURL
+    ? parseInt(sortingFromURL)
+    : SORTING_ENUM.CHEAPEST;
+}
 
 function sortTickets(tickets, sortingId) {
   const keyExtractor = sortingId === SORTING_ENUM.CHEAPEST
@@ -169,8 +182,18 @@ function filterTickets(tickets, filters) {
 
   return tickets.filter(ticket => {
     const stopsCount = ticket.segments.reduce((acc, item) => acc + item.stops.length, 0);
+
     if (allFiltersSelected || noOneSelected) {
-      return true;
+      return true
+    }
+
+    if (includeAll) {
+      return (
+        (includeWithout && (stopsCount === 0))
+        && (includeWithOne && (stopsCount === 1))
+        && (includeWithTwo && (stopsCount === 2))
+        && (includeWithThree && (stopsCount === 3))
+      )
     }
 
     return (
