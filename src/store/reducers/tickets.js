@@ -188,11 +188,12 @@ function filterTickets(tickets, filters) {
     }
 
     if (includeAll) {
+      // if we are here, mean some filter is turned off
       return (
-        (includeWithout && (stopsCount === 0))
-        && (includeWithOne && (stopsCount === 1))
-        && (includeWithTwo && (stopsCount === 2))
-        && (includeWithThree && (stopsCount === 3))
+        (includeWithout || (stopsCount !== 0))
+        && (includeWithOne || (stopsCount !== 1))
+        && (includeWithTwo || (stopsCount !== 2))
+        && (includeWithThree || (stopsCount !== 3))
       )
     }
 
