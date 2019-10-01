@@ -60,3 +60,38 @@
     }
   }
 }
+
+.skeleton__inner {
+  background-color: var(--white);
+}
+
+.ticket__skeleton {
+  background-color: var(--skeletonBackground);
+  border-radius: 10px;
+  padding: 26px 20px 20px;
+
+  &__header {
+    min-height: 36px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+
+
+    .skeleton__oval {
+      height: 36px;
+      width: 72px;
+      border-radius: 20px;
+    }
+  }
+
+  &__segments {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 20px;
+
+    .segments__block {
+      height: 39px;
+      width: 125px;
+      border-radius: 15px;
+    }
+  }
+}

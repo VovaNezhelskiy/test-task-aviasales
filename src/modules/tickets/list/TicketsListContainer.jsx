@@ -9,10 +9,11 @@ const selectTickets = (state) => {
   const loadingState = state.tickets.list.loadingState;
 
   return { tickets, loadingState };
-}
+};
 
 export function TicketsListContainer() {
   const dispatch = useDispatch();
+  const { loadingState: searchIdLoadingState } = useSelector(state => state.tickets.searchId);
   const { tickets, loadingState } = useSelector(selectTickets);
 
   const loadInitialTickets = async () => {
@@ -30,7 +31,11 @@ export function TicketsListContainer() {
     }
   }, [loadingState]);
 
+  const isLoading = loadingState === LOAD_STATE.LOADING
+    || searchIdLoadingState === LOAD_STATE.LOADING
+    || (searchIdLoadingState === LOAD_STATE.DONE && loadingState === LOAD_STATE.NOT_ASKED);
+
   return (
-    <TicketsList tickets={tickets}/>
+    <TicketsList tickets={tickets} isLoading={isLoading}/>
   );
 }
