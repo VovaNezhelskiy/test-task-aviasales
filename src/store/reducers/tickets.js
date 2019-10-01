@@ -4,7 +4,12 @@ import { SORTING_ENUM, STOPS, STOPS_ENUM } from '../../constants/dictionaries';
 import { sortFromKey } from '../../utils/sortFromKey';
 import { getSearchParam } from '../../utils/getSearchParam';
 
-const reducedStops = STOPS.reduce((acc, stop) => ({ ...acc, [stop.id]: false }), {});
+const selectedStops = STOPS.reduce((acc, stop) => {
+  const selectedIds = getSearchParam('stops')?.split(',') || [];
+  const isSelected = selectedIds.some(id => parseInt(id, 10) === stop.id);
+
+  return ({ ...acc, [stop.id]: isSelected });
+}, {});
 
 const initialState = {
   searchId: {
@@ -20,7 +25,7 @@ const initialState = {
     hasMore: true,
   },
   filters: {
-    stops: reducedStops,
+    stops: selectedStops,
     sorting: getSearchParam('sorting') || SORTING_ENUM.CHEAPEST,
   },
 };
@@ -108,7 +113,8 @@ export function tickets(state = initialState, action) {
         }
       };
     case SEARCH_TICKETS.done: {
-      const sortedTickets = sortTickets(payload.tickets, state.filters.sorting);
+      const filteredTicket = filterTickets(payload.tickets, state.filters.stops);
+      const sortedTickets = sortTickets(filteredTicket, state.filters.sorting);
       return {
         ...state,
         list: {
